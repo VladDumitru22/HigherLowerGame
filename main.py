@@ -7,26 +7,38 @@ def format_data(account):
     account_country = account["country"]
     return f"{account_name}, a {account_description}, from {account_country}."
 
-account_A = random.choice(data)
+def check_answer(value_A, value_B, guess):
+    if value_A > value_B :
+        return guess == 'A'
+    else:
+        return guess == 'B'
+
+score = 0
+game_should_continue = True
 account_B = random.choice(data)
-if account_A == account_B:
+
+while game_should_continue:
+    account_A = account_B
     account_B = random.choice(data)
+    if account_A == account_B:
+        account_B = random.choice(data)
 
-print(f"Compare A: {format_data(account_A)}")
-print(f"Against B: {format_data(account_B)}")
+    print(f"Compare A: {format_data(account_A)}")
+    print(f"Against B: {format_data(account_B)}")
 
 
-#Ask user for a guess
+    guess = input("Who has more followers? Type 'A' or 'B': ").upper()
 
-#Get follower value of each account
+    print("\n" * 20)
 
-#Check if the user is correct
+    value_A = account_A["follower_count"]
+    value_B = account_B["follower_count"]
 
-#Get feedback to user
+    is_correct = check_answer(value_A, value_B, guess)
 
-#Score tracking
-
-#Make the game repeatable
-
-#Make the account at position B to become the next account at position A
-
+    if is_correct:
+        score += 1
+        print(f"You're right. Current score: {score}.")
+    else:
+        print(f"You lose! Final score: {score}.")
+        game_should_continue = False
